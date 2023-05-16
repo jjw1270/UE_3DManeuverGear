@@ -48,9 +48,17 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	float MaxZoomLength;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UInputAction> WalkAction;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	float RunSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	float WalkSpeed = 300.f;
+
 public:
 	APlayerCharacter();
-
 
 private:
 	/** Called for movement input */
@@ -61,6 +69,10 @@ private:
 
 	/** Called for zooming input */
 	void Zoom(const FInputActionValue& Value);
+
+	/** Called for walking input */
+	void Walk();
+	void StopWalking();
 
 protected:
 	// APawn interface
