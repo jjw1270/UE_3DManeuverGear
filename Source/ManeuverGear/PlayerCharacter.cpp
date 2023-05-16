@@ -9,6 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "CableComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
 // APlayerCharacter
@@ -43,6 +44,32 @@ APlayerCharacter::APlayerCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+
+	// Rope Boxes
+	LeftRopeBox = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftRopeBox"));
+	LeftRopeBox->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("LeftRopeSocket"));
+	RightRopeBox = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightRopeBox"));
+	RightRopeBox->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("RightRopeSocket"));
+
+	// Rope Spawn Points
+	LeftRopePoint = CreateDefaultSubobject<USceneComponent>(TEXT("LeftRopePoint"));
+	LeftRopePoint->SetupAttachment(LeftRopeBox);
+	RightRopePoint = CreateDefaultSubobject<USceneComponent>(TEXT("RightRopePoint"));
+	RightRopePoint->SetupAttachment(RightRopeBox);
+
+	// Rope Cable Components
+	RopeCables.SetNum(2);
+
+	RopeCables[0] = CreateDefaultSubobject<UCableComponent>(TEXT("LeftRopeCable"));
+	RopeCables[0]->SetupAttachment(LeftRopePoint);
+
+	RopeCables[1] = CreateDefaultSubobject<UCableComponent>(TEXT("RightRopeCable"));
+	RopeCables[1]->SetupAttachment(RightRopePoint);
+
+	for (auto Cable : RopeCables)
+	{
+		
+	}
 }
 
 void APlayerCharacter::BeginPlay()
@@ -132,10 +159,14 @@ void APlayerCharacter::Zoom(const FInputActionValue& Value)
 
 void APlayerCharacter::Walk()
 {
-	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+	if (GetCharacterMovement()->MaxWalkSpeed != WalkSpeed)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+	}
 }
 
 void APlayerCharacter::StopWalking()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Running"));
 	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
 }

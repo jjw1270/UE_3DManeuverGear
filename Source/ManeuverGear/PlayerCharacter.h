@@ -14,6 +14,9 @@ class APlayerCharacter : public ACharacter
 	GENERATED_BODY()
 
 private:
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Components
+
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class USpringArmComponent> CameraBoom;
@@ -21,6 +24,30 @@ private:
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UCameraComponent> FollowCamera;
+
+	/** Left Rope Box */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Rope, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UStaticMeshComponent> LeftRopeBox;
+
+	/** Right Rope Box */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Rope, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UStaticMeshComponent> RightRopeBox;
+
+	/** Left Rope Spawn Point */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Rope, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USceneComponent> LeftRopePoint;
+
+	/** Right Spawn Point */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Rope, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USceneComponent> RightRopePoint;
+
+	/** Rope Cable Components */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Rope, meta = (AllowPrivateAccess = "true"))
+	TArray<TObjectPtr<class UCableComponent>> RopeCables;
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Inputs
 
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
